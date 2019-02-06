@@ -7,13 +7,12 @@ import java.util.Random;
  * @author a16diegoar
  */
 public class Minadero {
-    private final int   nMinas;
-    private final int   ancho;
-    private final int   alto;
-    private char[][]    mapaMinas;
-    private boolean[][] mapaTapas;
-    private char        mina = '*';
-    private char        cv = ' ';
+    private final int       nMinas;
+    private final int       ancho;
+    private final int       alto;
+    private final char[][]  mapaMinas;
+    private boolean[][]     mapaTapas;
+    private final char      mina = '*';
     
     public Minadero(int nMinas, int ancho, int alto) {
         this.nMinas = nMinas;
@@ -25,7 +24,6 @@ public class Minadero {
         // inicializamos los mapas
         for (int i = 0; i < ancho; i++) {
             for (int j = 0; j < alto; j++) {
-                mapaMinas[i][j] = cv;
                 mapaTapas[i][j] = false;
             }
         }
@@ -33,7 +31,7 @@ public class Minadero {
         // colocamos las minas
         for (int i = 0; i < nMinas; i++) {
             int x, y;
-            do {                
+            do {
                 Random rnd = new Random();
                 x = rnd.nextInt(ancho);
                 y = rnd.nextInt(alto);
@@ -61,16 +59,44 @@ public class Minadero {
         }
     }
     
+    /**
+     * Devuelve el caracter en la posición (x, y). Siempre será un numero
+     * entre 0 y 9 o un asterisco para indicar la mina
+     * 
+     * @param x posición horizontal
+     * @param y posición vertical
+     * @return caracter en (x, y)
+     */
     public char charAt(int x, int y) {
         char cel = mapaMinas[x][y];
-        return cel == '0' ? cv : cel;
+        return cel;
     }
     
+    /**
+     * Devuelve el numero total de celdas horizontales
+     * @return ancho
+     */
     public int getAncho() {
         return this.ancho;
     }
     
+    /**
+     * Devuelve el numero total de celdas verticales
+     * @return alto
+     */
     public int getAlto() {
         return this.alto;
+    }
+    
+    /**
+     * Indica si hay una tapa sobre la posición (x, y)
+     * 
+     * @param x posicion horizontal
+     * @param y posicion vertical
+     * @return verdadero si hay tapa, falso si no
+     */
+    public boolean getTapa(int x, int y) {
+        boolean b = mapaTapas[x][y];
+        return b;
     }
 }
