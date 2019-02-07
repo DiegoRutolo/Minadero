@@ -24,7 +24,7 @@ public class Minadero {
         // inicializamos los mapas
         for (int i = 0; i < ancho; i++) {
             for (int j = 0; j < alto; j++) {
-                mapaTapas[i][j] = false;
+                mapaTapas[i][j] = true;
             }
         }
         
@@ -67,7 +67,7 @@ public class Minadero {
      * @param y posición vertical
      * @return caracter en (x, y)
      */
-    public char charAt(int x, int y) {
+    public final char charAt(int x, int y) {
         char cel = mapaMinas[x][y];
         return cel;
     }
@@ -98,5 +98,27 @@ public class Minadero {
     public boolean getTapa(int x, int y) {
         boolean b = mapaTapas[x][y];
         return b;
+    }
+    
+    /**
+     * Quita la tapa de la casilla (x, y) y las que la rodean hasta encontrar
+     * un numero
+     * 
+     * @param x posicion hozirontal
+     * @param y posicion vertical
+     */
+    public void abre(int x, int y) {
+        mapaTapas[x][y] = false;
+        if (mapaMinas[x][y] == '0') {
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    if (!(i == 0 && j == 0)) {
+                        if (x+i >= 0 && x+i < ancho && y+j >= 0 && y+j < alto) {
+                            abre(x+i, y+j);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

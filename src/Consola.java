@@ -5,7 +5,7 @@ public class Consola {
     static char tapa = '·';
     static char cv = ' ';
     
-    public static char cubrir(Minadero t, int x, int y) {
+    public static char muestraCasilla(Minadero t, int x, int y) {
         
         if (t.getTapa(x, y)) {
             return tapa;
@@ -30,7 +30,7 @@ public class Consola {
         System.out.println("───┐");
         for (int i = 0; i < t.getAlto()-1; i++) {
             for (int j = 0; j < t.getAncho(); j++) {
-                System.out.print("│ " + cubrir(t, j, i) + " ");
+                System.out.print("│ " + muestraCasilla(t, j, i) + " ");
             }
             System.out.print("│");
             System.out.print(" " + (i+1) + " \n");
@@ -41,7 +41,7 @@ public class Consola {
             System.out.println("───┤");
         }
         for (int j = 0; j < t.getAncho(); j++) {
-            System.out.print("│ " + cubrir(t, j, t.getAlto()-1) + " ");
+            System.out.print("│ " + muestraCasilla(t, j, t.getAlto()-1) + " ");
         }
         System.out.print("│ " + t.getAlto() + "\n└");
         
@@ -56,7 +56,8 @@ public class Consola {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Minadero t = new Minadero(5, 15, 15);
+        Minadero t = new Minadero(5, 10, 10);
+        // t.abre(3, 4);
         imprimeTablero(t);
     }
 }
