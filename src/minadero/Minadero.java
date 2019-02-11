@@ -14,6 +14,10 @@ public class Minadero {
     private boolean[][]     mapaTapas;
     private final char      mina = '*';
     
+    public Minadero(int ancho, int alto) {
+        this((ancho*alto)/8, ancho, alto);
+    }
+    
     public Minadero(int nMinas, int ancho, int alto) {
         this.nMinas = nMinas;
         this.ancho = ancho;
@@ -123,5 +127,19 @@ public class Minadero {
                 abre(x+i, y+j);
             }
         }
+    }
+    
+    public boolean completo() {
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+                if (mapaMinas[x][y] != mina && mapaTapas[x][y]) {
+                    return false;
+                }
+                if (mapaMinas[x][y] == mina && !mapaTapas[x][y]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

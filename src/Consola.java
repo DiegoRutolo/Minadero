@@ -1,4 +1,5 @@
 
+import java.util.Scanner;
 import minadero.Minadero;
 
 public class Consola {
@@ -56,8 +57,29 @@ public class Consola {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Minadero t = new Minadero(5, 7, 7);
-        t.abre(3, 4);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce el tamaño del tablero en formato ANCHO ALTO [N_MINAS].");
+        System.out.print("->");
+        String s = sc.nextLine();
+        Scanner lin = new Scanner(s);
+        int ancho = lin.nextInt();
+        int alto = lin.nextInt();
+        int nminas;
+        Minadero t;
+        if (lin.hasNext()) {
+            nminas = lin.nextInt();
+            t = new Minadero(nminas, ancho, alto);
+        } else {
+            t = new Minadero(ancho, alto);
+        }
         imprimeTablero(t);
+        
+        /*
+        System.out.println("Introduce la casilla que quieres abrir (ej: B 3)");
+        do {
+            int col, fil;
+            imprimeTablero(t);
+        } while (!t.completo());
+        */
     }
 }
