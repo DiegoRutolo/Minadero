@@ -108,16 +108,19 @@ public class Minadero {
      * @param y posicion vertical
      */
     public void abre(int x, int y) {
+        if (x < 0 || x >= ancho || y < 0 || y >= alto) {
+            return;
+        }
+        if (!mapaTapas[x][y]) {
+            return;
+        }
         mapaTapas[x][y] = false;
-        if (mapaMinas[x][y] == '0') {
-            for (int i = -1; i < 2; i++) {
-                for (int j = -1; j < 2; j++) {
-                    if (!(i == 0 && j == 0)) {
-                        if (x+i >= 0 && x+i < ancho && y+j >= 0 && y+j < alto) {
-                            abre(x+i, y+j);
-                        }
-                    }
-                }
+        if (mapaMinas[x][y] != '0') {
+            return;
+        }
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                abre(x+i, y+j);
             }
         }
     }

@@ -56,8 +56,8 @@ public class Consola {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Minadero t = new Minadero(5, 10, 10);
-        // t.abre(3, 4);
+        Minadero t = new Minadero(5, 7, 7);
+        t.abre(3, 4);
         imprimeTablero(t);
     }
 }
