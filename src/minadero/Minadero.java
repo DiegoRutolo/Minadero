@@ -7,11 +7,13 @@ import java.util.Random;
  * @author a16diegoar
  */
 public class Minadero {
+
     private final int       nMinas;
     private final int       ancho;
     private final int       alto;
     private final char[][]  mapaMinas;
     private boolean[][]     mapaTapas;
+    private boolean[][]     mapaMarcas;
     private final char      mina = '*';
     
     public Minadero(int ancho, int alto) {
@@ -24,11 +26,13 @@ public class Minadero {
         this.alto = alto;
         mapaMinas = new char[ancho][alto];
         mapaTapas = new boolean[ancho][alto];
+        mapaMarcas = new boolean[ancho][alto];
         
         // inicializamos los mapas
         for (int i = 0; i < ancho; i++) {
             for (int j = 0; j < alto; j++) {
                 mapaTapas[i][j] = true;
+                mapaMarcas[i][j] = false;
             }
         }
         
@@ -77,6 +81,13 @@ public class Minadero {
     }
     
     /**
+     * @return the mina
+     */
+    public char getMina() {
+        return mina;
+    }
+    
+    /**
      * Devuelve el numero total de celdas horizontales
      * @return ancho
      */
@@ -99,7 +110,7 @@ public class Minadero {
      * @param y posicion vertical
      * @return verdadero si hay tapa, falso si no
      */
-    public boolean getTapa(int x, int y) {
+    public boolean tapado(int x, int y) {
         boolean b = mapaTapas[x][y];
         return b;
     }
@@ -132,14 +143,30 @@ public class Minadero {
     public boolean completo() {
         for (int x = 0; x < ancho; x++) {
             for (int y = 0; y < alto; y++) {
-                if (mapaMinas[x][y] != mina && mapaTapas[x][y]) {
+                if (mapaMinas[x][y] != getMina() && mapaTapas[x][y]) {
                     return false;
                 }
-                if (mapaMinas[x][y] == mina && !mapaTapas[x][y]) {
+                if (mapaMinas[x][y] == getMina() && !mapaTapas[x][y]) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    public void setMarca(int x, int y) {
+        mapaMarcas[x][y] = !mapaMarcas[x][y];
+    }
+    
+    public boolean getMarca(int x, int y) {
+        return mapaMarcas[x][y];
+    }
+
+    public void abreTodo() {
+        for (int x = 0; x < ancho; x++) {
+            for (int y = 0; y < alto; y++) {
+                mapaTapas[x][y] = false;
+            }
+        }
     }
 }

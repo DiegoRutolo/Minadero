@@ -8,7 +8,9 @@ public class Consola {
     
     public static char muestraCasilla(Minadero t, int x, int y) {
         
-        if (t.getTapa(x, y)) {
+        if (t.getMarca(x, y)) {
+            return '?';
+        } else if (t.tapado(x, y)) {
             return tapa;
         } else if (t.charAt(x, y) == '0') {
             return cv;
@@ -52,6 +54,14 @@ public class Consola {
             System.out.println("───┘");
         System.out.println("\n");
     }
+    
+    public static int getX(char x) {
+        return (int) x-65;
+    }
+    
+    public static int getY(int y) {
+        return y-1;
+    }
 
     /**
      * @param args the command line arguments
@@ -74,12 +84,30 @@ public class Consola {
         }
         imprimeTablero(t);
         
-        /*
         System.out.println("Introduce la casilla que quieres abrir (ej: B 3)");
         do {
-            int col, fil;
+            String orden = sc.nextLine();
+            Scanner sl = new Scanner(orden);
+            int x = getX(sl.next().toUpperCase().charAt(0));
+            int y = getY(sl.nextInt());
+            
+            if (t.tapado(x, y)) {
+                if (sl.hasNext() && sl.next().toUpperCase().charAt(0) == 'M') {
+                    t.setMarca(x, y);
+                } else {
+                    t.abre(x, y);
+                    if (t.charAt(x, y) == t.getMina()) {
+                        System.out.println("BOOOOOM\n");
+                        t.abreTodo();
+                        imprimeTablero(t);
+                        return;
+                    }
+                }
+            }
             imprimeTablero(t);
         } while (!t.completo());
-        */
+        System.out.println("CAMPO LIMPIO\n");
+        t.abreTodo();
+        imprimeTablero(t);
     }
 }
