@@ -16,10 +16,22 @@ public class Minadero {
     private boolean[][]     mapaMarcas;
     private final char      mina = '*';
     
+    /**
+     * Establece el numero de minas como (Nº celdas) / 8
+     * 
+     * @param ancho numero de columnas
+     * @param alto  numero de filas
+     */
     public Minadero(int ancho, int alto) {
         this((ancho*alto)/8, ancho, alto);
     }
     
+    /**
+     * Constructor predeterminado 
+     * @param nMinas    numero total de minas
+     * @param ancho     numero de columnas
+     * @param alto      numero de filas
+     */
     public Minadero(int nMinas, int ancho, int alto) {
         this.nMinas = nMinas;
         this.ancho = ancho;
@@ -126,6 +138,9 @@ public class Minadero {
         if (x < 0 || x >= ancho || y < 0 || y >= alto) {
             return;
         }
+        if (mapaMarcas[x][y]) {
+            return;
+        }
         if (!mapaTapas[x][y]) {
             return;
         }
@@ -140,6 +155,11 @@ public class Minadero {
         }
     }
     
+    /**
+     * Comprueba si todas las casillas sin mina están destapadas
+     * 
+     * @return  verdadero cuando está todo abierto
+     */
     public boolean completo() {
         for (int x = 0; x < ancho; x++) {
             for (int y = 0; y < alto; y++) {
@@ -154,18 +174,63 @@ public class Minadero {
         return true;
     }
 
+    /**
+     * Si no hay marca, pone una. Si hay, la quita.
+     * 
+     * @param x posicion horizontal
+     * @param y posicion vertical
+     */
     public void setMarca(int x, int y) {
         mapaMarcas[x][y] = !mapaMarcas[x][y];
     }
     
+    /**
+     * Consultar el estado de la marca en (x, y)
+     * 
+     * @param x posicion horizontal
+     * @param y posicion vertical
+     * @return  verdadero si hay marca
+     */
     public boolean getMarca(int x, int y) {
         return mapaMarcas[x][y];
     }
 
+    /**
+     * Descubre todo el tablero
+     */
     public void abreTodo() {
         for (int x = 0; x < ancho; x++) {
             for (int y = 0; y < alto; y++) {
                 mapaTapas[x][y] = false;
+            }
+        }
+    }
+
+    /**
+     * Cuando pulsamos sobre una casilla con número, comprueba las marcas que
+     * hay a su alrededor. Si es coinciden con el numero, abre todas las demas
+     * casillas
+     * 
+     * @param x posicion horizontal
+     * @param y posicion vertical
+     */
+    public void numero(int x, int y) {
+        int n = (int) this.charAt(x, y) - 48;
+        int m = 0;
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                try {
+                    if (this.getMarca(x+i, y+j)) {
+                        m++;
+                    }
+                } catch (IndexOutOfBoundsException e) {}
+            }
+        }
+        if (n == m) {
+            for (int i = -1; i < 2; i++) {
+                for (int j = -1; j < 2; j++) {
+                    this.abre(x+i, y+j);
+                }
             }
         }
     }
