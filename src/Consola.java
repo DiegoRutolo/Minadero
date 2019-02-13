@@ -8,6 +8,8 @@ public class Consola {
     static char marca = '?';
     static final String ANSI_RESET = "\u001B[0m";
     static final String ANSI_RED = "\u001B[31m";
+    static final String ANSI_BLUE = "\u001B[34m";
+    static final String ANSI_GREEN = "\u001B[32m";
     
     /**
      * Decide que mostrar en la casilla (x, y)
@@ -18,16 +20,26 @@ public class Consola {
      * @return  cadena a mostrar
      */
     public static String muestraCasilla(Minadero t, int x, int y) {
-        if (t.getMarca(x, y)) {
-            return Character.toString(marca);
-        } else if (t.tapado(x, y)) {
-            return Character.toString(tapa);
-        } else if (t.charAt(x, y) == '0') {
-            return Character.toString(cv);
-        } else if (t.charAt(x, y) == t.getMina()) {
-            return ANSI_RED + Character.toString(t.getMina()) + ANSI_RESET;
+        if (!t.completo()) {
+            if (t.getMarca(x, y)) {
+                return ANSI_BLUE + Character.toString(marca) + ANSI_RESET;
+            } else if (t.tapado(x, y)) {
+                return Character.toString(tapa);
+            } else if (t.charAt(x, y) == '0') {
+                return Character.toString(cv);
+            } else if (t.charAt(x, y) == t.getMina()) {
+                return ANSI_RED + Character.toString(t.getMina()) + ANSI_RESET;
+            } else {
+                return Character.toString(t.charAt(x, y));
+            }
         } else {
-            return Character.toString(t.charAt(x, y));
+            if (t.charAt(x, y) == '0') {
+                return Character.toString(cv);
+            } else if (t.charAt(x, y) == t.getMina()) {
+                return ANSI_GREEN + Character.toString(t.getMina()) + ANSI_RESET;
+            } else {
+                return Character.toString(t.charAt(x, y));
+            }
         }
     }
     
