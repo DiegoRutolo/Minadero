@@ -1,6 +1,7 @@
 
 import java.util.Scanner;
 import minadero.Minadero;
+import org.apache.commons.lang3.SystemUtils;
 
 public class Consola {
     static char tapa = '·';
@@ -20,25 +21,49 @@ public class Consola {
      * @return  cadena a mostrar
      */
     public static String muestraCasilla(Minadero t, int x, int y) {
-        if (!t.completo()) {
-            if (t.getMarca(x, y)) {
-                return ANSI_BLUE + Character.toString(marca) + ANSI_RESET;
-            } else if (t.tapado(x, y)) {
-                return Character.toString(tapa);
-            } else if (t.charAt(x, y) == '0') {
-                return Character.toString(cv);
-            } else if (t.charAt(x, y) == t.getMina()) {
-                return ANSI_RED + Character.toString(t.getMina()) + ANSI_RESET;
+        if (SystemUtils.IS_OS_LINUX) {
+            if (!t.completo()) {
+                if (t.getMarca(x, y)) {
+                    return ANSI_BLUE + Character.toString(marca) + ANSI_RESET;
+                } else if (t.tapado(x, y)) {
+                    return Character.toString(tapa);
+                } else if (t.charAt(x, y) == '0') {
+                    return Character.toString(cv);
+                } else if (t.charAt(x, y) == t.getMina()) {
+                    return ANSI_RED + Character.toString(t.getMina()) + ANSI_RESET;
+                } else {
+                    return Character.toString(t.charAt(x, y));
+                }
             } else {
-                return Character.toString(t.charAt(x, y));
+                if (t.charAt(x, y) == '0') {
+                    return Character.toString(cv);
+                } else if (t.charAt(x, y) == t.getMina()) {
+                    return ANSI_GREEN + Character.toString(t.getMina()) + ANSI_RESET;
+                } else {
+                    return Character.toString(t.charAt(x, y));
+                }
             }
         } else {
-            if (t.charAt(x, y) == '0') {
-                return Character.toString(cv);
-            } else if (t.charAt(x, y) == t.getMina()) {
-                return ANSI_GREEN + Character.toString(t.getMina()) + ANSI_RESET;
+            if (!t.completo()) {
+                if (t.getMarca(x, y)) {
+                    return Character.toString(marca);
+                } else if (t.tapado(x, y)) {
+                    return Character.toString(tapa);
+                } else if (t.charAt(x, y) == '0') {
+                    return Character.toString(cv);
+                } else if (t.charAt(x, y) == t.getMina()) {
+                    return Character.toString(t.getMina());
+                } else {
+                    return Character.toString(t.charAt(x, y));
+                }
             } else {
-                return Character.toString(t.charAt(x, y));
+                if (t.charAt(x, y) == '0') {
+                    return Character.toString(cv);
+                } else if (t.charAt(x, y) == t.getMina()) {
+                    return Character.toString(t.getMina());
+                } else {
+                    return Character.toString(t.charAt(x, y));
+                }
             }
         }
     }
