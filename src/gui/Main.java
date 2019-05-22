@@ -97,7 +97,6 @@ class Main extends JFrame {
     
     void abre(int x, int y) {
     	botones[x][y].setEnabled(false);
-		//botones[x][y].setText(Character.toString(campo.charAt(x, y)));
 		botones[x][y].setBackground(colCorrespond(campo.charAt(x, y)));
 		botones[x][y].setIcon(new ImageIcon(getClass().getResource(getImagen(campo.charAt(x, y)))));
     }
